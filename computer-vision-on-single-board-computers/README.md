@@ -11,13 +11,13 @@ Project of Embedded Systems course (Spring 2023).
 
 **TODO**
 
-## Authors and major contributors
+## Major Contributors
 
 - Dmitry Belyakov (@kimiega)
 - Andrew Krivosheev (@Andryss)
 - Ivan Turin (@barduck)
 - Victor Smirnov (@vitya)
 
-## Useful information
+## Useful Information
 
-**TODO**
+- [Documentation](./doc/README.md)
