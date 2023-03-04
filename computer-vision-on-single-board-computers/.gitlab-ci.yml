@@ -1,3 +1,5 @@
+image: generic-c
+
 stages:
   - build
   - test
