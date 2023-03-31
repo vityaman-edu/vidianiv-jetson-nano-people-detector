@@ -1,0 +1,32 @@
+@startuml "design-alternative"
+
+node Organization {
+    Video -- [Camera]
+
+    [Jetson Nano] --> Video
+
+    Jetson_Opserver -- [Jetson Nano]
+    Jetson_Stats_API -- [Jetson Nano]
+    Jetson_Video_API -- [Jetson Nano]
+}
+
+cloud {
+    [Spring] --> Jetson_Opserver
+    [Spring] --> Jetson_Stats_API
+    [Spring] --> PSQL
+
+    Spring_Stats_API -- [Spring]
+    Spring_Connect_API -- [Spring]
+
+    database "PostgreSQL" {
+        PSQL -- [PostgreSQL]
+    }
+}
+
+node Client {
+    [Desktop] --> Spring_Connect_API
+    [Desktop] --> Spring_Stats_API
+    [Desktop] --> Jetson_Video_API
+}
+
+@enduml

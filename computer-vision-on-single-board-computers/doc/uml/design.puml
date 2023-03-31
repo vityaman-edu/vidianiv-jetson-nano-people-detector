@@ -1,0 +1,31 @@
+@startuml "design"
+
+node "Jetson Nano & Camera" {
+    Stream - [Camera]
+    JetsonAPI - [Jetson Nano]
+    [Jetson Nano] --> Stream : video
+}
+
+cloud {
+    database "PostgreSQL" {
+        PSQL - [Statistics]
+    }
+
+    node "Backend" {
+        BackendAPI - [Spring]
+        [Spring] --> JetsonAPI : video & stats
+        [Spring] --> PSQL : stats
+    }
+
+    node "Frontend" {
+        FrontendAPI - [React Server]
+    }
+}
+
+node Client {
+    [Browser] --> FrontendAPI : view
+    [Browser] --> BackendAPI : video & stats
+    [Desktop] --> BackendAPI : video & stats
+}
+
+@enduml
