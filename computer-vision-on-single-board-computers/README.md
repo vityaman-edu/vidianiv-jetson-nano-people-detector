@@ -1,6 +1,6 @@
 # Computer Vision On Single Board Computers
 
-Computer Vision On Single Board Computers is a 
+Computer Vision On Single Board Computers is a
 Project of Embedded Systems course (Spring 2023).
 
 ## Status
@@ -9,6 +9,9 @@ Project of Embedded Systems course (Spring 2023).
 
 `dev` [![dev branch pipline status](https://gitlab.se.ifmo.ru/vidianiv/projects/badges/dev/pipeline.svg)](https://gitlab.se.ifmo.ru/vidianiv/projects/-/commits/dev)
 
+## Structure
+
+[Prototype](./prototype/README.md)
 
 ## Build & Run
 
