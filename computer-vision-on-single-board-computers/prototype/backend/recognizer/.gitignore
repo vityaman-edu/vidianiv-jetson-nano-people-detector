@@ -1,0 +1,19 @@
+# IDE
+.vscode/
+
+# Python
+.ipynb_checkpoints/
+
+# YOLO V8
+datasets/
+bus.jpg
+runs/
+yolov8n.pt
+
+# YOLO V3
+yolov3.cfg
+yolov3.txt
+yolov3.weights
+
+# Other
+haarcascade_frontalface_default.xml
