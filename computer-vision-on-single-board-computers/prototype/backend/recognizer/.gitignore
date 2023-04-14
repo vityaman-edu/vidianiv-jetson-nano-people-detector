@@ -4,6 +4,7 @@
 # Outputs
 build/
 dist/
+*.egg-info
 
 # Environments
 .env

@@ -20,10 +20,9 @@ rm -rf notebook/runs
 rm -rf notebook/bus.jpg
 rm -rf notebook/yolov8n.pt
 
-echo "[prototype/recognizer] clean: remove dist"
+echo "[prototype/recognizer] clean: remove outputs"
 rm -rf dist
-
-echo "[prototype/recognizer] clean: remove venv"
-rm -rf venv
+rm -rf build
+rm -rf src/*.egg-info
 
 echo "[prototype/recognizer] clean: Task 'Clean' done."

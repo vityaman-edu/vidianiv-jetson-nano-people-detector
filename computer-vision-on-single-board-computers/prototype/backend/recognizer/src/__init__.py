@@ -1,0 +1,1 @@
+from .vidianiv_people_recognizer import *
