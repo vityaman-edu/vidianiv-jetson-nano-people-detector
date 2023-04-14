@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-
-SCRIPT_DIRECTORY="dirname $0"
-cd SCRIPT_DIRECTORY/..
+set -e
+SCRIPT_DIRECTORY=`dirname "$0"`
+cd $SCRIPT_DIRECTORY/..
 
 echo "[prototype/recognizer] clean: Running task 'Clean'..."
 
@@ -19,5 +19,11 @@ rm -rf notebook/datasets
 rm -rf notebook/runs
 rm -rf notebook/bus.jpg
 rm -rf notebook/yolov8n.pt
+
+echo "[prototype/recognizer] clean: remove dist"
+rm -rf dist
+
+echo "[prototype/recognizer] clean: remove venv"
+rm -rf venv
 
 echo "[prototype/recognizer] clean: Task 'Clean' done."

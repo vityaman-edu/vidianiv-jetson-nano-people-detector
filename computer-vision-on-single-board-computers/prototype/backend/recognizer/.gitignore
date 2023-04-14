@@ -1,7 +1,22 @@
 # IDE
 .vscode/
 
+# Outputs
+build/
+dist/
+
+# Environments
+.env
+.venv
+env/
+venv/
+
 # Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
 .ipynb_checkpoints/
 
 # YOLO V8
