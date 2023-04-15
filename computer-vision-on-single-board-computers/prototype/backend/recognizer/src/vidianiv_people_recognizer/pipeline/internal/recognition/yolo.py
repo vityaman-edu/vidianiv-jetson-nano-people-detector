@@ -1,5 +1,6 @@
 from typing import Iterable
 from ultralytics import YOLO
+import cv2 as cv
 from .recognizer import (
     ObjectRecognizer,
     Stream,
@@ -13,7 +14,6 @@ from ...output import (
     ObjectKind, 
     Rectangle
 )
-import cv2 as cv
 
 
 class YOLOV8Recognizer(ObjectRecognizer):
@@ -24,7 +24,7 @@ class YOLOV8Recognizer(ObjectRecognizer):
 
         objects, i = {}, 0
         for item in input:
-            
+
             i = (i + 1) % 5
             if i == 0:
                 objects = set(self.detect(item.processed_image))
