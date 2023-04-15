@@ -1,18 +1,8 @@
-from typing import Iterable, NamedTuple
-from .object import Object
+from typing import Iterable
 import cv2 as cv
 
-
-FrameId = int
+Id = int
 
 Image = cv.Mat
 
-class Frame(NamedTuple):
-    id: FrameId
-    image: Image
-
 Stream = Iterable
-
-class Feature(NamedTuple):
-    frame_id: FrameId
-    object: Object

@@ -1,19 +1,15 @@
 from typing import NamedTuple
-from .capture import VideoSource
-from .preprocessing import VideoPreprocessor
-from .recognition import ObjectRecognizer
-from .supply import Consumer
-
+from .input import VideoSource
+from .internal import Flow
+from .output import Consumer
 
 class Pipeline(NamedTuple):
     source: VideoSource
-    preprocessor: VideoPreprocessor
-    recognizer: ObjectRecognizer
+    flow: Flow
     consumer: Consumer
 
     def start(self):
         with self.source as source:
-            captured = source.flow
-            preprocessed = self.preprocessor.process(captured)
-            recognized = self.recognizer.recognize(preprocessed)
-            self.consumer.consume(recognized)
+            input = source.video
+            output = self.flow.process(input)
+            self.consumer.consume(output)

@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
-from ..flow import FlowRecognized
-
+from .type import Features
 
 class Consumer(ABC):
     @abstractmethod
-    def consume(self, input: FlowRecognized):
+    def consume(self, input: Features):
         raise NotImplementedError()

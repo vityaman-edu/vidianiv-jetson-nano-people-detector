@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ..flow import FlowCaptured
+from .type import Video
 
 
 class VideoSource(ABC):
@@ -12,9 +12,9 @@ class VideoSource(ABC):
         raise NotImplementedError()
     
     @abstractmethod
-    def __iter__(self) -> FlowCaptured:
+    def __iter__(self) -> Video:
         raise NotImplementedError()
     
     @property
-    def flow(self) -> FlowCaptured:
+    def video(self) -> Video:
         return iter(self)
