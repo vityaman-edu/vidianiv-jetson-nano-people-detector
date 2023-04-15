@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 
-with open("README.md", "r") as file:
+with open('README.md', 'r') as file:
     long_description = file.read()
 
 setup(
@@ -13,17 +13,18 @@ setup(
     author='Victor Smirnov',
     author_email='vityaman.dev@yandex.ru',
     url='https://gitlab.se.ifmo.ru/vidianiv/projects',
-    license="MIT",
+    license='MIT',
     classifiers=[
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.10",
-        "Operating System :: OS Independent",
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3.10',
+        'Operating System :: OS Independent',
     ],
 
-    python_requires=">=3.10",
+    python_requires='>=3.10',
     install_requires=[
-        "numpy==1.24.2",
-        "opencv-python==4.7.0.72"
+        'numpy==1.24.2',
+        'opencv-python==4.7.0.72',
+        'ultralytics',
     ],
 
     package_dir={'': 'src'},

@@ -10,4 +10,3 @@ class CVDisplay(Consumer):
         for item in input:
             if cv.waitKey(1) == ord('q'): break
             cv.imshow(self.name, item.original_image)
-            print(item.id, item.objects)
