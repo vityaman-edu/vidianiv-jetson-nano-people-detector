@@ -1,10 +1,10 @@
 # Prototype of Computer Vision On Single Board Computers project
 
-| Services                                                 |
-| -------------------------------------------------------- |
-| [Frontend](./frontend/README.md)                         |
-| [Public API](./backend/public-api/README.md)                     |
-| [Computation Unit](./backend/computation-unit/README.md) |
-| [Recognizer](./backend/recognizer/README.md)             |
+| Services                                          |
+| ------------------------------------------------- |
+| [Web Client](./client-web/README.md)              |
+| [Public Service](./public-service/README.md)      |
+| [Jetson Nano Service](./jetson-service/README.md) |
+| [Detector Library](./detector-lib/README.md)      |
 
 [Root](../README.md)
