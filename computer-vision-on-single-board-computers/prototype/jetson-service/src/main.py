@@ -6,7 +6,7 @@ from model import Detection
 
 
 def output_detected(objects: List[Detection]):
-    if len(object) == 0: return
+    if len(objects) == 0: return
     print('[JS] --- Detected Objects --- ')
     for object in objects:
         print(f'[JS] Detection with confidence {object.confidence:.2f}')
@@ -32,7 +32,7 @@ if __name__ == '__main__':
             )
         )),
         video_input = ImageInput('csi://0'),
-        video_output = ImageOutput('rtp://192.168.1.100:1234'),
+        video_output = ImageOutput('rtp://192.168.1.40:1234'),
         objects_output = output_detected,
         config = Recognizer.Config(
             detection_period = 15,
