@@ -1,2 +1,1 @@
 export JETSON_INFERENCE_HOME=~/dev/jetson-inference
-export JETSON_SERVICE_HOME=~/dev/vidianiv/computer-vision-on-single-board-computers/prototype/jetson-service
