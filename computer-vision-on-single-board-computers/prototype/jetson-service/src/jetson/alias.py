@@ -1,5 +1,5 @@
-import jetson_inference
-import jetson_utils
+import jetson_inference # type: ignore
+import jetson_utils     # type: ignore
 
 DetectNet      = jetson_inference.detectNet
 VideoSource    = jetson_utils.videoSource

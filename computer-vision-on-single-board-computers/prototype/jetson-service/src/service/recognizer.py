@@ -1,25 +1,25 @@
-from typing import NamedTuple, Callable
+from typing import NamedTuple
 from jetson.inference import Detector
 from jetson.video import ImageInput, ImageOutput
-from model import Detection
+from service.reporter import Reporter
+
+
+class RecognizerConfig(NamedTuple):
+    detection_period: int
 
 
 class Recognizer(NamedTuple):
-    class Config(NamedTuple):
-        detection_period: int
-
     model: Detector
     video_input: ImageInput
     video_output: ImageOutput
-    objects_output: Callable[[Detection], None]
-    config: Config
+    reporter: Reporter
+    config: RecognizerConfig
 
-    def run(self):
+    def run(self) -> None:
         i, period = 0, self.config.detection_period
         for image in self.video_input:
             if i == 0:
                 objects = self.model.objects_on(image)
-                objects = list(map(Detection.from_jetson, objects))
-                self.objects_output((objects))
+                self.reporter.report(objects)
             self.video_output.consume(image)
             i = (i + 1) % period
