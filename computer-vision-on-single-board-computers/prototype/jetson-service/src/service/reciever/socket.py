@@ -9,7 +9,7 @@ class SocketReciever(Reciever):
     def __init__(self, host: str, port: int, debug = False) -> None:
         self.host = host
         self.port = port
-        self.debug = True
+        self.debug = debug
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     def take(self, detected_objects: Collection[Detection]) -> Collection[Detection]:
