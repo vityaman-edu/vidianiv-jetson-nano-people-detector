@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Streaming</title>
+</head>
+<body>
+<img id="stream-image" alt="Live stream here" src="#"/>
+<br>
+<video id="player"></video>
+<label for="stream-image" id="fps-label">Not enough statistics</label>
+<br>
+<button id="reconnect-button">reconnect</button>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script type="importmap">
+  {
+    "imports": {
+      "@stomp/stompjs": "https://ga.jspm.io/npm:@stomp/stompjs@7.0.0/esm6/index.js"
+    }
+  }
+</script>
+<script type="module">
+    import {Stomp} from '@stomp/stompjs';
+
+    let socket;
+    let stompClient;
+    let connected;
+
+    const reconnectButton = document.getElementById("reconnect-button");
+    const streamImage = document.getElementById("stream-image");
+    const fpsLabel = document.getElementById("fps-label");
+
+    let updatesPerSecond = 0;
+
+    setInterval(() => {
+        fpsLabel.innerText = updatesPerSecond + " FPS";
+        updatesPerSecond = 0;
+    }, 1000)
+
+    const setConnected = (value) => {
+        connected = value;
+        reconnectButton.disabled = connected;
+    };
+
+    setConnected(false);
+
+    const onMessageReceive = async (message) => {
+        console.log(message);
+        let slice = message.body.slice(1, message.body.length - 2);
+        let numbers = slice.split(", ").map((val) => parseInt(val));
+        streamImage.src = URL.createObjectURL(new Blob([new Uint8Array(numbers)], { type: "image/jpeg" }));
+        updatesPerSecond++;
+    };
+
+    const onConnect = () => {
+        setConnected(true);
+        console.log("Connected")
+        stompClient.subscribe("/stream/video", onMessageReceive);
+    };
+
+    const onError = (error) => {
+        setConnected(false);
+        console.log("Error")
+        console.log(error);
+    };
+
+    const onClose = () => {
+        setConnected(false);
+        console.log("Closed");
+        setTimeout(() => {tryConnect()}, 10);
+    };
+
+    const tryConnect = () => {
+        socket = new SockJS("http://localhost:12345/ws");
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, onConnect, onError, onClose);
+    };
+
+    reconnectButton.onclick = tryConnect;
+
+    tryConnect();
+
+</script>
+</html>
