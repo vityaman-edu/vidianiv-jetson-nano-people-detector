@@ -38,11 +38,11 @@ if __name__ == '__main__':
             width = 640, 
             height = 380,
             framerate = 30,
-            codec = Codec.H264,
+            codec = Codec.H265,
             flip = True,
         )),
         video_output = ImageOutput(f'rtsp://@:1234/output', ImageOutputParameters(
-            codec = Codec.H264,
+            codec = Codec.H265,
             bitrate = 100_000,
         )),
         reciever = SequenceReciever([
