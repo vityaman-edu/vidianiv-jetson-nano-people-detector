@@ -1,12 +1,10 @@
 package ru.vidianiv.jetsonbackend.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.opencv.core.*;
-import org.opencv.core.Point;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -19,12 +17,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.vidianiv.jetsonbackend.service.BroadcastMessageSendingService;
-import ru.vidianiv.jetsonbackend.util.feature.FeaturePacket;
+import ru.vidianiv.jetsonbackend.objects.FeaturePacket;
 
 import java.util.Arrays;
 
 @Component
-@EnableScheduling
 public class StreamReceiver {
 
     static {
@@ -63,6 +60,10 @@ public class StreamReceiver {
 
     @Getter @Setter
     public FeaturePacket[] lastFeatures;
+
+    public void processFeaturePackets(FeaturePacket[] packets) {
+        lastFeatures = packets;
+    }
 
     @Scheduled(fixedDelay = 1)
     public void sendNewFrame() {

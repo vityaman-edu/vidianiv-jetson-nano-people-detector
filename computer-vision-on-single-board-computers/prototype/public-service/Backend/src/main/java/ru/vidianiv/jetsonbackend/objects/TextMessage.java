@@ -1,4 +1,4 @@
-package ru.vidianiv.jetsonbackend.dto;
+package ru.vidianiv.jetsonbackend.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

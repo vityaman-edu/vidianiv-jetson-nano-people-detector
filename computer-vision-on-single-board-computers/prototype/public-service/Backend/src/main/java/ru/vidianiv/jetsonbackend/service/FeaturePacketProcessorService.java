@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.vidianiv.jetsonbackend.util.feature.FeaturePacket;
+import ru.vidianiv.jetsonbackend.objects.FeaturePacket;
 
 @Service
 public class FeaturePacketProcessorService {
@@ -18,9 +18,11 @@ public class FeaturePacketProcessorService {
         logger = LoggerFactory.getLogger(getClass());
     }
 
-    public void processFeaturePacket(FeaturePacket packet) {
-        logger.info(String.format("Received packet: %s", packet));
-        broadcastMessageSendingService.convertAndSend("/stream/feature", packet);
+    public void processFeaturePackets(FeaturePacket[] packets) {
+        for (FeaturePacket packet : packets) {
+            logger.info(String.format("Received packet: %s", packet));
+        }
+        broadcastMessageSendingService.convertAndSend("/stream/feature", packets);
     }
 
 }

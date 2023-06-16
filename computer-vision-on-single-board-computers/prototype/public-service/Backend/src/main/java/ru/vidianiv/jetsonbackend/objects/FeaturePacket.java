@@ -1,4 +1,4 @@
-package ru.vidianiv.jetsonbackend.util.feature;
+package ru.vidianiv.jetsonbackend.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeaturePacket {
+    long timestamp;
     String label;
     double conf;
     Box box;

@@ -7,7 +7,8 @@
 <body>
 <img id="stream-image" alt="Live stream here" src="#"/>
 <br>
-<video id="player"></video>
+<label for="stream-image" id="humans-label">Nothing yet</label>
+<br>
 <label for="stream-image" id="fps-label">Not enough statistics</label>
 <br>
 <button id="reconnect-button">reconnect</button>
@@ -29,6 +30,7 @@
 
     const reconnectButton = document.getElementById("reconnect-button");
     const streamImage = document.getElementById("stream-image");
+    const humansLabel = document.getElementById("humans-label");
     const fpsLabel = document.getElementById("fps-label");
 
     let updatesPerSecond = 0;
@@ -45,7 +47,7 @@
 
     setConnected(false);
 
-    const onMessageReceive = async (message) => {
+    const onVideoReceive = async (message) => {
         console.log(message);
         let slice = message.body.slice(1, message.body.length - 2);
         let numbers = slice.split(", ").map((val) => parseInt(val));
@@ -53,10 +55,17 @@
         updatesPerSecond++;
     };
 
+    const onFeatureReceive = async (message) => {
+        console.log(message);
+        let response = JSON.parse(message);
+        humansLabel.innerText = response.length + " people";
+    }
+
     const onConnect = () => {
         setConnected(true);
         console.log("Connected")
-        stompClient.subscribe("/stream/video", onMessageReceive);
+        stompClient.subscribe("/stream/video", onVideoReceive);
+        stompClient.subscribe("/stream/feature", onFeatureReceive);
     };
 
     const onError = (error) => {

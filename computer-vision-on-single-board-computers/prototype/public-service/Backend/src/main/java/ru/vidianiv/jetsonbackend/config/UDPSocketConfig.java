@@ -6,8 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.ip.dsl.Udp;
-import ru.vidianiv.jetsonbackend.service.FeaturePacketProcessorService;
-import ru.vidianiv.jetsonbackend.util.feature.FeatureMessageHandler;
+import ru.vidianiv.jetsonbackend.handler.FeatureMessageHandler;
 
 @Configuration
 public class UDPSocketConfig {
