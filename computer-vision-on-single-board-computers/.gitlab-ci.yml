@@ -1,32 +1,14 @@
 image: generic-c
 
 stages:
+  - prepare
+  - lint
   - build
   - test
   - deploy
 
-build-job:
-  stage: build
+hello-world:
+  stage: prepare
   script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
-
-unit-test-job:
-  stage: test
-  script:
-    - echo "Running unit tests... This will take about 2 seconds."
-    - sleep 2
-    - echo "Code coverage is 90%"
-
-lint-test-job:
-  stage: test
-  script:
-    - echo "Linting code... This will take about 2 seconds."
-    - sleep 2
-    - echo "No lint issues found."
-
-deploy-job:  
-  stage: deploy
-  script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - cat /etc/*-release
+    - echo "Hello, World!"

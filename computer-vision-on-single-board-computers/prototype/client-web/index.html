@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello AI World</title>
+    <script type='text/javascript' src='https://webrtc.github.io/adapter/adapter-latest.js'></script>
+    <script type='text/javascript' src='webrtc.js'></script>
+    <script type='text/javascript'>
+        play = function () {
+            playStream(
+                document.getElementById('play-stream').value,
+                document.getElementById('video-player')
+            );
+        };
+        window.onload = function () {
+            var playStream = document.getElementById('play-stream');
+            playStream.value = getWebsocketURL('192.168.73.57', 8554, 'output');
+        }
+    </script>
+</head>
+
+<body style="background-color:#333333; color:#FFFFFF; font-family:Arial">
+    <div>
+        <video id="video-player" autoplay controls playsinline muted>
+            Your browser does not support video
+        </video>
+    </div>
+    <div>
+        <label for="send-stream">Webcam:</label>
+        <select id="send-stream" name="send-stream" style="width: 245;"></select>
+        <button id="send-button" onclick="send()">Send</button>
+    </div>
+    <div>
+        <label for="play-stream">Stream:</label>
+        <input id="play-stream" name="play-stream" type="text" size="32">
+        <button id="play-button" onclick="play()">Play</button>
+    </div>
+</body>
+
+</html>
