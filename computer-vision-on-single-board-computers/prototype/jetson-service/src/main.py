@@ -13,7 +13,12 @@ from jetson.inference import (
     Overlay,
 )
 from service.recognizer import Recognizer, RecognizerConfig
-from service.reporter import ConsoleReporter
+from service.reciever import (
+    Deduplicator,
+    ConsoleReciever, 
+    SocketReciever,
+    SequenceReciever,
+)
 from argv import Arguments
 
 
@@ -22,32 +27,40 @@ if __name__ == '__main__':
     Recognizer(
         model = Detector(DetectorParameters(
             name = ModelName.PEOPLENET,
-            threshold = 0.5,
-            tracking = TrackingParameters(
-                min_frames = 3,
-                drop_frames = 15,
-                overlap_threshold = 0.5,
-            ),
-            overlay = { Overlay.BOX, Overlay.LABEL, Overlay.LABEL },
+            threshold = 0.4,
+            # tracking = TrackingParameters(
+            #     min_frames = 3,
+            #     drop_frames = 15,
+            #     overlap_threshold = 0.5,
+            # ),
         )),
         video_input = ImageInput('csi://0', ImageInputParameters(
-            width = 500, 
-            height = 500,
+            width = 640, 
+            height = 380,
             framerate = 30,
             codec = Codec.H264,
             flip = True,
         )),
-        video_output = ImageOutput(args.output, ImageOutputParameters(
+        video_output = ImageOutput(f'rtsp://@:1234/output', ImageOutputParameters(
             codec = Codec.H264,
-            bitrate = 4_000_000,
+            bitrate = 100_000,
         )),
-        reporter = ConsoleReporter(
-            tag = 'JS',
-            sep = '=',
-            verbose = True,
-            area_threshold = 0.8,
-        ),
+        reciever = SequenceReciever([
+            Deduplicator(
+                overlap_threshold = 0.3,
+            ),
+            ConsoleReciever(
+                tag = 'JS',
+                sep = '=',
+                verbose = True,
+            ),
+            SocketReciever(
+                host  = str(args.output.split(':')[0]), 
+                port  = int(args.output.split(':')[1]),
+                debug = True
+            ),
+        ]),
         config = RecognizerConfig(
-            detection_period = 5,
+            detection_period = 10,
         ),
     ).run()

@@ -32,12 +32,9 @@ class DetectorParameters(NamedTuple):
 
 class Detector:
     def __init__(self, parameters: DetectorParameters):
-        csv_overlay = ",".join(list(map(lambda o: o.value, parameters.overlay)))
+        self.csv_overlay = ",".join(list(map(lambda o: o.value, parameters.overlay)))
         self.net = DetectNet(
-            parameters.name.value, [
-                f'--network={parameters.name.value}',
-                f'--overlay={csv_overlay}',
-            ],
+            parameters.name.value, 
             threshold = parameters.threshold,
         )
         if parameters.tracking is not None:
@@ -60,4 +57,5 @@ class Detector:
                     bottom = o.Bottom,
                 )
             )
-        return list(map(convert, self.net.Detect(image))) # type: ignore
+        return [convert(o) for o in 
+                self.net.Detect(image, overlay=self.csv_overlay)] # type: ignore
