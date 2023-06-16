@@ -17,14 +17,14 @@ class Arguments(NamedTuple):
         )
         parser.add_argument(
             "--output", type=str, default="", nargs='?', 
-            help="URI of the output stream"
+            help="URI of the output stream, example: localhost:10101"
         )
         try:
             args = parser.parse_known_args()[0]
             return Arguments(
                 output = args.output,
             )
-        except:
-            print("")
+        except Exception as e:
+            print(e)
             parser.print_help()
             sys.exit(0)
