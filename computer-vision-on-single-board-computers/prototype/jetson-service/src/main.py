@@ -49,15 +49,15 @@ if __name__ == '__main__':
             Deduplicator(
                 overlap_threshold = 0.3,
             ),
-            ConsoleReciever(
-                tag = 'JS',
-                sep = '=',
-                verbose = True,
-            ),
+            # ConsoleReciever(
+            #     tag = 'JS',
+            #     sep = '=',
+            #     verbose = True,
+            # ),
             SocketReciever(
                 host  = str(args.output.split(':')[0]), 
                 port  = int(args.output.split(':')[1]),
-                debug = True
+                debug = False
             ),
         ]),
         config = RecognizerConfig(
