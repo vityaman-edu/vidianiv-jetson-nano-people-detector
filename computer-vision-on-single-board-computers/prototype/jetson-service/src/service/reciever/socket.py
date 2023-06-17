@@ -24,7 +24,7 @@ class SocketReciever(Reciever):
     
     def json_from(self, object: Detection) -> Dict[str, Any]:
         return {
-            'timestamp': time() * 1000 * 1000,
+            'timestamp': round(time() * 1000 * 1000),
             'label': object.kind.label,
             'conf': object.confidence,
             'box': {
