@@ -1,94 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Streaming</title>
-</head>
-<body>
-<img id="stream-image" alt="Live stream here" src="#"/>
-<br>
-<label for="stream-image" id="humans-label">Nothing yet</label>
-<br>
-<label for="stream-image" id="fps-label">Not enough statistics</label>
-<br>
-<button id="reconnect-button">reconnect</button>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script type="importmap">
-  {
-    "imports": {
-      "@stomp/stompjs": "https://ga.jspm.io/npm:@stomp/stompjs@7.0.0/esm6/index.js"
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="layout-container">
+      <div class="section-container stream">
+        <div class="section-layout">
+          <div class="section-label">
+            <span>Camera capture</span>
+            <div class="parameters">
+              <!-- <div class="inline-parameter">
+                <label for="camera-width">Width</label>
+                <input id="camera-width" type="number" min="100" max="1000" />
+              </div> 
+              <div class="inline-parameter">
+                <label for="camera-height">Heigth</label>
+                <input id="camera-height" type="number" min="100" max="1000" />
+              </div> -->
+            </div>
+          </div>
+          <div class="section-content">
+            <div class="section-content-item">
+              <div class="video-container">
+                <img id="stream-image" alt="Live stream here" src="#" />
+              </div>
+            </div>
+            <div class="section-content-item">
+              <div class="section-content-item-content">
+                <div class="stream-connect">
+                  <input
+                    id="stream-host-input"
+                    placeholder="http://localhost:12345/ws"
+                    value="http://localhost:12345/ws"
+                  />
+                  <button id="stream-connect-btn">connect</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-container statistics">
+        <div class="section-layout">
+          <div class="section-label">
+            <span>Statistics</span>
+          </div>
+          <div class="section-content">
+            <div class="section-content-item">
+              <div class="section-content-item-label">
+                <label for="stream-statistics-fps" id="fps-label">FPS</label>
+              </div>
+              <div class="section-content-item-content">
+                <span id="stream-statistics-fps">Not enough statistics</span>
+              </div>
+            </div>
+            <div class="section-content-item">
+              <div class="section-content-item-label">
+                <label for="stream-statistics-humans" id="humans-label">
+                  Amout of humans
+                </label>
+              </div>
+              <div class="section-content-item-content">
+                <span id="stream-statistics-humans">Not enough statistics</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="section-container graph">
+        <div class="section-layout">
+          <div class="section-label">
+            <span>Graph</span>
+          </div>
+          <div class="section-content">
+            <div class="section-content-item">
+              <canvas id="statistics-graph">Turn on canvas</canvas>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "@stomp/stompjs": "https://ga.jspm.io/npm:@stomp/stompjs@7.0.0/esm6/index.js"
+      }
     }
-  }
-</script>
-<script type="module">
-    import {Stomp} from '@stomp/stompjs';
+  </script>
+  <script>
+    import { Stomp } from "@stomp/stompjs";
 
     let socket;
     let stompClient;
     let connected;
 
-    const reconnectButton = document.getElementById("reconnect-button");
+    const reconnectButton = document.getElementById("stream-connect-btn");
     const streamImage = document.getElementById("stream-image");
-    const humansLabel = document.getElementById("humans-label");
-    const fpsLabel = document.getElementById("fps-label");
+    const humansLabel = document.getElementById("stream-statistics-humans");
+    const fpsLabel = document.getElementById("stream-statistics-fps");
+
+    const urlInput = document.getElementById("stream-host-input");
+    // const graphData = []
 
     let updatesPerSecond = 0;
 
     setInterval(() => {
-        fpsLabel.innerText = updatesPerSecond + " FPS";
-        updatesPerSecond = 0;
-    }, 1000)
+      fpsLabel.innerText = `${updatesPerSecond} FPS`;
+      updatesPerSecond = 0;
+    }, 1000);
 
     const setConnected = (value) => {
-        connected = value;
-        reconnectButton.disabled = connected;
+      connected = value;
+      reconnectButton.disabled = connected;
     };
 
     setConnected(false);
 
     const onVideoReceive = async (message) => {
-        console.log(message);
-        let slice = message.body.slice(1, message.body.length - 2);
-        let numbers = slice.split(", ").map((val) => parseInt(val));
-        streamImage.src = URL.createObjectURL(new Blob([new Uint8Array(numbers)], { type: "image/jpeg" }));
-        updatesPerSecond++;
+      console.log(message);
+      let slice = message.body.slice(1, message.body.length - 2);
+      let numbers = slice.split(", ").map((val) => parseInt(val));
+      streamImage.src = URL.createObjectURL(
+        new Blob([new Uint8Array(numbers)], { type: "image/jpeg" })
+      );
+      updatesPerSecond++;
     };
 
     const onFeatureReceive = async (message) => {
-        console.log(message);
-        let response = JSON.parse(message);
-        humansLabel.innerText = response.length + " people";
-    }
+      console.log(message);
+      let response = JSON.parse(message);
+      humansLabel.innerText = `${response.length} people`;
+    };
 
     const onConnect = () => {
-        setConnected(true);
-        console.log("Connected")
-        stompClient.subscribe("/stream/video", onVideoReceive);
-        stompClient.subscribe("/stream/feature", onFeatureReceive);
+      setConnected(true);
+      console.log("Connected");
+      stompClient.subscribe("/stream/video", onVideoReceive);
+      stompClient.subscribe("/stream/feature", onFeatureReceive);
     };
 
     const onError = (error) => {
-        setConnected(false);
-        console.log("Error")
-        console.log(error);
+      setConnected(false);
+      console.log("Error");
+      console.log(error);
     };
 
     const onClose = () => {
-        setConnected(false);
-        console.log("Closed");
-        setTimeout(() => {tryConnect()}, 10);
+      setConnected(false);
+      console.log("Closed");
+      setTimeout(() => {
+        tryConnect();
+      }, 10);
     };
 
     const tryConnect = () => {
-        socket = new SockJS("http://localhost:12345/ws");
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, onConnect, onError, onClose);
+      socket = new SockJS(urlInput.value);
+      stompClient = Stomp.over(socket);
+      stompClient.connect({}, onConnect, onError, onClose);
     };
 
     reconnectButton.onclick = tryConnect;
 
     tryConnect();
 
-</script>
+    /* GRAPH */
+    //...
+  </script>
 </html>
