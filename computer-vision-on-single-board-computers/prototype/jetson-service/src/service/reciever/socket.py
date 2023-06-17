@@ -2,7 +2,7 @@ from typing import Collection, List, Union, Dict, Any
 from .reciever import Reciever
 from jetson.inference.detection import Detection
 import socket
-import sys
+import time
 import json
 
 class SocketReciever(Reciever):
@@ -24,6 +24,7 @@ class SocketReciever(Reciever):
     
     def json_from(self, object: Detection) -> Dict[str, Any]:
         return {
+            'timestamp': time.time_ns() / 1000,
             'label': object.kind.label,
             'conf': object.confidence,
             'box': {
