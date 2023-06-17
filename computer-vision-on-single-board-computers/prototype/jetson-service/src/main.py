@@ -57,7 +57,7 @@ if __name__ == '__main__':
             SocketReciever(
                 host  = str(args.output.split(':')[0]), 
                 port  = int(args.output.split(':')[1]),
-                debug = True,
+                debug = False,
             ),
         ]),
         config = RecognizerConfig(
