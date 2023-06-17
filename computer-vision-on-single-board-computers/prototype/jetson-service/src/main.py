@@ -37,17 +37,17 @@ if __name__ == '__main__':
         video_input = ImageInput('csi://0', ImageInputParameters(
             width = 640, 
             height = 380,
-            framerate = 30,
-            codec = Codec.H265,
+            framerate = 20,
+            codec = Codec.H264,
             flip = True,
         )),
         video_output = ImageOutput(f'rtsp://@:1234/output', ImageOutputParameters(
-            codec = Codec.H265,
-            bitrate = 100_000,
+            codec = Codec.H264,
+            bitrate = 300_000,
         )),
         reciever = SequenceReciever([
             Deduplicator(
-                overlap_threshold = 0.3,
+                overlap_threshold = 0.5,
             ),
             # ConsoleReciever(
             #     tag = 'JS',
