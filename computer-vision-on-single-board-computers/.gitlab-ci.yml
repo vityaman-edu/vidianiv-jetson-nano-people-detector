@@ -1,0 +1,14 @@
+image: generic-c
+
+stages:
+  - prepare
+  - lint
+  - build
+  - test
+  - deploy
+
+hello-world:
+  stage: prepare
+  script:
+    - cat /etc/*-release
+    - echo "Hello, World!"
