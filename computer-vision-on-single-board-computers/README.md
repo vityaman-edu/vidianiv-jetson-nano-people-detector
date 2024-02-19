@@ -26,6 +26,7 @@ Project of Embedded Systems course (Spring 2023).
 
 ## Useful Information
 
+- [Presentation](https://docs.google.com/presentation/d/1MbYxIZiTxZxYRwQZPbrCC36cbaKceaUIP8XojarvQWA)
 - [Contributing Guide](./doc/CONTRIBUTING.md)
 - [Documentation](./doc/README.md)
 - [Notes](./doc/note/README.md)
